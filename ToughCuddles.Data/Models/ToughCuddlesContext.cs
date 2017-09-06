@@ -10,9 +10,9 @@ namespace ToughCuddles.Data.Models
         public virtual DbSet<Doctors> Doctors { get; set; }
         public virtual DbSet<Match> Matches { get; set; }
         public virtual DbSet<Team> Teams { get; set; }
-        public virtual DbSet<Tickets> Tickets { get; set; }
-        public virtual DbSet<Umpires> Umpires { get; set; }
-        public virtual DbSet<Venues> Venues { get; set; }
+        public virtual DbSet<Ticket> Tickets { get; set; }
+        public virtual DbSet<Umpire> Umpires { get; set; }
+        public virtual DbSet<Venue> Venues { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -91,7 +91,7 @@ namespace ToughCuddles.Data.Models
                     .HasMaxLength(100);
             });
 
-            modelBuilder.Entity<Tickets>(entity =>
+            modelBuilder.Entity<Ticket>(entity =>
             {
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
@@ -114,7 +114,7 @@ namespace ToughCuddles.Data.Models
                     .HasConstraintName("FK_Tickets_Venues");
             });
 
-            modelBuilder.Entity<Umpires>(entity =>
+            modelBuilder.Entity<Umpire>(entity =>
             {
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
@@ -123,7 +123,7 @@ namespace ToughCuddles.Data.Models
                     .HasMaxLength(50);
             });
 
-            modelBuilder.Entity<Venues>(entity =>
+            modelBuilder.Entity<Venue>(entity =>
             {
                 entity.Property(e => e.Id).ValueGeneratedNever();
 

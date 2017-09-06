@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 using ToughCuddles.Services;
 using ToughCuddles.Web.Dtos;
 using ToughCuddles.Web.Helpers;
@@ -20,15 +21,9 @@ namespace ToughCuddles.Web.Controllers
       _graphQlService = graphQlService;
     }
 
-    [HttpGet]
-    [AllowAnonymous]
-    public async Task<IActionResult> GetAsync()
-    {
-      return Ok("Hello GraphQL");
-    }
-
     [HttpPost]
     [AllowAnonymous]
+    [ProducesResponseType(typeof(JObject), 200)]
     public async Task<IActionResult> PostAsync([FromBody] GraphQlQueryDto query, CancellationToken cancellationToken)
     {
       var queryStr = string.IsNullOrEmpty(query.Query) ? Constants.IntrospectionQuery : query.Query;

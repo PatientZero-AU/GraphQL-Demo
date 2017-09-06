@@ -57,7 +57,7 @@ namespace ToughCuddles.Services
         foreach (var error in result.Errors)
           sb.AppendLine(error.Message);
 
-        throw new InvalidOperationException(JObject.FromObject(new { Error = sb.ToString() }).ToString());
+        throw new InvalidOperationException(sb.ToString());
       }
       return _writer.Write(result);
     }

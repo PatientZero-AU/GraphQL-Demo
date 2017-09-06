@@ -7,7 +7,7 @@ namespace ToughCuddles.Data.Models
     {
         public Match()
         {
-            Tickets = new HashSet<Tickets>();
+            Tickets = new HashSet<Ticket>();
         }
 
         public Guid Id { get; set; }
@@ -21,8 +21,8 @@ namespace ToughCuddles.Data.Models
 
         public Team AwayTeam { get; set; }
         public Team HomeTeam { get; set; }
-        public Umpires Umpire { get; set; }
+        public Umpire Umpire { get; set; }
         public Team WinningTeam { get; set; }
-        public ICollection<Tickets> Tickets { get; set; }
+        public ICollection<Ticket> Tickets { get; set; }
     }
 }
