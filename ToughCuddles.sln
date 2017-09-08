@@ -1,15 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.8
+VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToughCuddles.Data", "ToughCuddles.Data\ToughCuddles.Data.csproj", "{D160DBAD-F01D-4A3D-982A-0A89DEA8D1A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToughCuddles.Data", "ToughCuddles.Data\ToughCuddles.Data.csproj", "{D160DBAD-F01D-4A3D-982A-0A89DEA8D1A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToughCuddles.Domain", "ToughCuddles.Domain\ToughCuddles.Domain.csproj", "{D3CF7E32-8DAB-46E2-AEB6-81DA5A7F5BA4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToughCuddles.Core", "ToughCuddles.Domain\ToughCuddles.Core.csproj", "{D3CF7E32-8DAB-46E2-AEB6-81DA5A7F5BA4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToughCuddles.Services", "ToughCuddles.Services\ToughCuddles.Services.csproj", "{62C88704-AEC8-4188-A9DB-9F2C85EC0205}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToughCuddles.Services", "ToughCuddles.Services\ToughCuddles.Services.csproj", "{62C88704-AEC8-4188-A9DB-9F2C85EC0205}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToughCuddles.Web", "ToughCuddles.Web\ToughCuddles.Web.csproj", "{6AAC78D0-9248-4B6A-89C7-48C348FD1744}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToughCuddles.Web", "ToughCuddles.Web\ToughCuddles.Web.csproj", "{6AAC78D0-9248-4B6A-89C7-48C348FD1744}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,11 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
-using System.Net.Http;
-using System.Text;
+using Newtonsoft.Json.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
 using ToughCuddles.Services;
 using ToughCuddles.Web.Dtos;
 using ToughCuddles.Web.Helpers;
@@ -15,14 +12,15 @@ namespace ToughCuddles.Web.Controllers
   [Route("api/[controller]")]
   public class GraphQlController : Controller
   {
+    private readonly IHttpContextAccessor _contextAccessor;
     private readonly IGraphQlService _graphQlService;
-    public GraphQlController(IGraphQlService graphQlService)
+    public GraphQlController(IGraphQlService graphQlService, IHttpContextAccessor contextAccessor)
     {
       _graphQlService = graphQlService;
+      _contextAccessor = contextAccessor;
     }
 
     [HttpPost]
-    [AllowAnonymous]
     [ProducesResponseType(typeof(JObject), 200)]
     public async Task<IActionResult> PostAsync([FromBody] GraphQlQueryDto query, CancellationToken cancellationToken)
     {

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
+using ToughCuddles.Data.Enums;
 using ToughCuddles.Data.Models;
 
 namespace ToughCuddles.Data.GraphQL
@@ -45,14 +46,10 @@ namespace ToughCuddles.Data.GraphQL
         resolve: async ctx =>
         {
           var dbCtx = (ToughCuddlesContext)ctx.UserContext;
-          var q = await dbCtx.Teams
+          return await dbCtx.Teams
           .Include(t => t.Contestants)
-          .Include(t => t.MatchesAwayTeam)
           .ToArrayAsync(ctx.CancellationToken);
-          
-          return q;
         });
-
     }
   }
 
@@ -187,4 +184,15 @@ namespace ToughCuddles.Data.GraphQL
       Field(v => v.Tickets, type: typeof(ListGraphType<TicketType>));
     }
   }
+
+    public class DominantHandEnum : EnumerationGraphType
+    {
+        public DominantHandEnum()
+        {
+            Name = nameof(DominantHand);
+            AddValue(nameof(DominantHand.Both), "Both Hands", (int)DominantHand.Both);
+            AddValue(nameof(DominantHand.Right), "Right Hand", (int)DominantHand.Right);
+            AddValue(nameof(DominantHand.Left), "Left Hand", (int)DominantHand.Left);
+        }
+    }
 }

@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ToughCuddles.Data\ToughCuddles.Data.csproj" />
+    <ProjectReference Include="..\ToughCuddles.Domain\ToughCuddles.Core.csproj" />
   </ItemGroup>
 
 </Project>

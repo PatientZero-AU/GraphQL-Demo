@@ -11,4 +11,14 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ToughCuddles.Domain\ToughCuddles.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.AspNetCore.Authorization">
+      <HintPath>..\..\..\..\..\.nuget\packages\microsoft.aspnetcore.authorization\2.0.0\lib\netstandard2.0\Microsoft.AspNetCore.Authorization.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

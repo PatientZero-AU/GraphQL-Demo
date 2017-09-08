@@ -1,14 +1,14 @@
-﻿using System;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using GraphQL;
+﻿using GraphQL;
 using GraphQL.Http;
 using GraphQL.Instrumentation;
 using GraphQL.Types;
 using GraphQL.Validation.Complexity;
-using Newtonsoft.Json.Linq;
+using System;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using ToughCuddles.Core.Contracts;
 using ToughCuddles.Data.Models;
 
 namespace ToughCuddles.Services
@@ -25,7 +25,7 @@ namespace ToughCuddles.Services
     private readonly IDocumentWriter _writer;
     private readonly ToughCuddlesContext _ctx;
 
-    public GraphQlService(ISchema schema, IDocumentExecuter executer, IDocumentWriter writer, ToughCuddlesContext ctx)
+    public GraphQlService(ISchema schema, IDocumentExecuter executer, IDocumentWriter writer, IUserService userService, ToughCuddlesContext ctx)
     {
       _schema = schema;
       _executer = executer;
