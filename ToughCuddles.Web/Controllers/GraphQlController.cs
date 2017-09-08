@@ -12,12 +12,10 @@ namespace ToughCuddles.Web.Controllers
   [Route("api/[controller]")]
   public class GraphQlController : Controller
   {
-    private readonly IHttpContextAccessor _contextAccessor;
     private readonly IGraphQlService _graphQlService;
-    public GraphQlController(IGraphQlService graphQlService, IHttpContextAccessor contextAccessor)
+    public GraphQlController(IGraphQlService graphQlService)
     {
       _graphQlService = graphQlService;
-      _contextAccessor = contextAccessor;
     }
 
     [HttpPost]

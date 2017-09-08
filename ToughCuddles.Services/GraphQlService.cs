@@ -3,17 +3,17 @@ using GraphQL.Http;
 using GraphQL.Instrumentation;
 using GraphQL.Types;
 using GraphQL.Validation.Complexity;
-using System;
+using Newtonsoft.Json.Linq;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using ToughCuddles.Core.Contracts;
-using ToughCuddles.Data.Models;
+using ToughCuddles.Data.Context;
+using ToughCuddles.Data.Validations;
 
 namespace ToughCuddles.Services
 {
-  public interface IGraphQlService
+    public interface IGraphQlService
   {
     Task<string> ExecuteAsync(string query, string variables, string operationName, CancellationToken cancellationToken);
   }
@@ -23,9 +23,10 @@ namespace ToughCuddles.Services
     private readonly ISchema _schema;
     private readonly IDocumentExecuter _executer;
     private readonly IDocumentWriter _writer;
-    private readonly ToughCuddlesContext _ctx;
+    
+    private readonly GraphQlUserContext _ctx;
 
-    public GraphQlService(ISchema schema, IDocumentExecuter executer, IDocumentWriter writer, IUserService userService, ToughCuddlesContext ctx)
+    public GraphQlService(ISchema schema, IDocumentExecuter executer, IDocumentWriter writer, GraphQlUserContext ctx)
     {
       _schema = schema;
       _executer = executer;
@@ -47,7 +48,7 @@ namespace ToughCuddles.Services
         _.CancellationToken = cancellationToken;
         _.ComplexityConfiguration = new ComplexityConfiguration { MaxDepth = 15 };
         _.FieldMiddleware.Use<InstrumentFieldsMiddleware>();
-        // _.ValidationRules = new[] { new RequiresAuthValidationRule() };
+        _.ValidationRules = new[] { new RequiresAuthValidationRule() };
 
       });
 
@@ -57,7 +58,7 @@ namespace ToughCuddles.Services
         foreach (var error in result.Errors)
           sb.AppendLine(error.Message);
 
-        throw new InvalidOperationException(sb.ToString());
+        return JObject.FromObject(new {Error = sb.ToString()}).ToString();
       }
       return _writer.Write(result);
     }
