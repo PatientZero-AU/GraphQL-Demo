@@ -1,0 +1,32 @@
+<md-toolbar color="primary">
+  <md-toolbar-row>
+    <h1 class="page-card-flexible-title">Teams &amp; Contestants</h1>
+  </md-toolbar-row>
+  <md-toolbar-row></md-toolbar-row>
+</md-toolbar>
+<div class="page-card page-card-flexible-tabs" fxFlexOffset="15" fxFlex="70">
+  <div class="page-content">
+    <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="row" fxLayoutWrap="wrap">
+      <div *ngFor="let team of data?.teams; let i = index;" fxFlex.gt-xs="50%">
+        <div fxLayout="column">
+          <md-card class="page-card card-content-full page-card-padding-bottom" fxFlex>
+            <span>{{ team.name }}</span>
+            <md-divider></md-divider>
+            <md-card-actions>
+              <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="row">
+                <div *ngFor="let contestant of team.contestants; let i = index;">
+                  <button md-button class="pull-right" (click)="editContestant(contestant.id)">{{ contestant.name }}</button>
+                </div>
+              </div>
+              <!-- <button md-icon-button (click)="editContestant(team.)">
+                  <md-icon>location_on</md-icon>
+                </button>
+              <span class="filler"></span>
+              <button md-button class="pull-right">SEND</button> -->
+            </md-card-actions>
+          </md-card>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

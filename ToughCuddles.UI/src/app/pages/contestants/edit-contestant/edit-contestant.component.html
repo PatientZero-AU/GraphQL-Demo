@@ -1,0 +1,42 @@
+<md-toolbar color="primary">
+  <md-toolbar-row>
+    <h1 class="page-card-flexible-title">Edit Contestant</h1>
+  </md-toolbar-row>
+  <md-toolbar-row></md-toolbar-row>
+</md-toolbar>
+<div class="page-card page-card-flexible-tabs" fxFlexOffset="15" fxFlex="70">
+  <div class="page-content">
+    <div class="page-content">
+      <section class="bs">
+        <md-card class="page-card" fxFlex>
+          <md-card-title>Details</md-card-title>
+          <md-card-content>
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="50">
+              <div class="card-form-input" fxflex>
+                <md-input-container>
+                  <input mdInput placeholder="Name" type="text" [(ngModel)]="data?.contestant.name">
+                </md-input-container>
+              </div>
+            </div>
+            <br>
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="50">
+              <div class="card-form-input" fxflex>
+                <md-card-subtitle>Dominant Hand</md-card-subtitle>
+                <md-radio-group [(ngModel)]="data?.contestant.dominantHand">
+                  <md-radio-button value="0">Both</md-radio-button>
+                  <md-radio-button value="1">Right</md-radio-button>
+                  <md-radio-button value="2">Left</md-radio-button>
+                </md-radio-group>
+              </div>
+            </div>
+
+          </md-card-content>
+          <md-card-actions>
+            <button md-raised-button>Save</button>
+            <button md-raised-button (click)="goBack()">Cancel</button>
+          </md-card-actions>
+        </md-card>
+      </section>
+    </div>
+  </div>
+</div>

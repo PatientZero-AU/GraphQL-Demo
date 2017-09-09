@@ -1,0 +1,9 @@
+query AllTeams {
+  teams {
+    name
+    contestants {
+      id
+      name
+    }
+  }
+}
