@@ -87,7 +87,7 @@ namespace ToughCuddles.Data.GraphQL
       Field(r => r.Name);
       Field(r => r.JoinDate);
       Field(r => r.TicketsSoldCount, type: typeof(IntGraphType));
-      //Field(r => r.AverageWinRate, type: typeof(FloatGraphType));
+      Field(r => r.AverageWinRate, type: typeof(FloatGraphType));
       
       FieldAsync<ListGraphType<ContestantType>>(
         "contestants",
@@ -110,32 +110,7 @@ namespace ToughCuddles.Data.GraphQL
             .Where(m => m.HomeTeamId == team.Id || m.AwayTeamId == team.Id)
             .AsNoTracking()
             .ToArrayAsync(ctx.CancellationToken);
-        });
-
-      FieldAsync<IntGraphType>("numberOfWins", resolve: async ctx =>
-      {
-        var team = ctx.Source;
-        var dbCtx = ctx.UserContext.As<GraphQlUserContext>().DbContext;
-        return await dbCtx.Matches
-          .Where(m => m.HomeTeamId == team.Id || m.AwayTeamId == team.Id)
-          .SelectMany(m => m.Tickets)
-          .AsNoTracking()
-          .CountAsync(ctx.CancellationToken);
-      }); //.RequestClaim(CuddlesRole.Admin);
-
-      // Authz
-      //FieldAsync<IntGraphType>("ticketsSold", resolve: async ctx =>
-      //{
-      //  var team = ctx.Source;
-      //  var dbCtx = ctx.UserContext.As<GraphQlUserContext>().DbContext; ;
-      //  return await dbCtx.Matches
-      //    .Where(m => m.HomeTeamId == team.Id || m.AwayTeamId == team.Id)
-      //    .SelectMany(m => m.Tickets)
-      //    .AsNoTracking()
-      //    .CountAsync(ctx.CancellationToken);
-      //}); //.RequestClaim(CuddlesRole.Admin);
-
-      //Field<IntGraphType>("ticketsSold", );
+        }); //.RequestClaim(CuddlesRole.Admin);
     }
   }
 
