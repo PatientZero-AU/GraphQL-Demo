@@ -10,192 +10,210 @@ using ToughCuddles.Data.Models;
 
 namespace ToughCuddles.Data.GraphQL
 {
-    public class ToughCuddlesRootQuery : ObjectGraphType
+  public class ToughCuddlesRootQuery : ObjectGraphType
+  {
+    public ToughCuddlesRootQuery()
     {
-        public ToughCuddlesRootQuery()
+      Name = "toughcuddles";
+
+      FieldAsync<ListGraphType<ContestantType>>(
+        "contestants",
+        resolve: async ctx =>
         {
-            Name = "toughcuddles";
+          var dbCtx = ctx.UserContext.As<GraphQlUserContext>().DbContext;
+          return await dbCtx.Contestants.AsNoTracking().ToArrayAsync(ctx.CancellationToken);
+        });
 
-            FieldAsync<ListGraphType<ContestantType>>(
-              "contestants",
-              resolve: async ctx =>
-              {
-                  var dbCtx = ctx.UserContext.As<GraphQlUserContext>().DbContext;
-                  return await dbCtx.Contestants.AsNoTracking().ToArrayAsync(ctx.CancellationToken);
-              });
+      FieldAsync<ContestantType>(
+        "contestant",
+        arguments: new QueryArguments(new QueryArgument<NonNullGraphType<IdGraphType>> { Name = "contestantId" }),
+        resolve: async ctx =>
+        {
+          var id = ctx.GetArgument<Guid>("contestantId");
+          var dbCtx = ctx.UserContext.As<GraphQlUserContext>().DbContext;
+          return await dbCtx.Contestants.AsNoTracking().SingleAsync(c => c.Id == id, ctx.CancellationToken);
+        });
 
-            FieldAsync<ContestantType>(
-              "contestant",
-              arguments: new QueryArguments(new QueryArgument<NonNullGraphType<IdGraphType>> { Name = "contestantId" }),
-              resolve: async ctx =>
-              {
-                  var id = ctx.GetArgument<Guid>("contestantId");
-                  var dbCtx = ctx.UserContext.As<GraphQlUserContext>().DbContext;
-                  return await dbCtx.Contestants.AsNoTracking().SingleAsync(c => c.Id == id, ctx.CancellationToken);
-              });
+      FieldAsync<TeamType>(
+        "team",
+        arguments: new QueryArguments(new QueryArgument<NonNullGraphType<IdGraphType>> { Name = "teamId" }),
+        resolve: async ctx =>
+        {
+          var id = ctx.GetArgument<Guid>("teamId");
+          var dbCtx = ctx.UserContext.As<GraphQlUserContext>().DbContext;
+          return await dbCtx.Teams.Include(t => t.Contestants).AsNoTracking().SingleAsync(c => c.Id == id, ctx.CancellationToken);
+        });
 
-            FieldAsync<TeamType>(
-              "team",
-              arguments: new QueryArguments(new QueryArgument<NonNullGraphType<IdGraphType>> { Name = "teamId" }),
-              resolve: async ctx =>
-              {
-                  var id = ctx.GetArgument<Guid>("teamId");
-                  var dbCtx = ctx.UserContext.As<GraphQlUserContext>().DbContext;
-                  return await dbCtx.Teams.Include(t => t.Contestants).AsNoTracking().SingleAsync(c => c.Id == id, ctx.CancellationToken);
-              });
-
-            FieldAsync<ListGraphType<TeamType>>(
-              "teams",
-              resolve: async ctx =>
-              {
-                  var dbCtx = ctx.UserContext.As<GraphQlUserContext>().DbContext;
-                  return await dbCtx.Teams
-                          .Include(t => t.Contestants)
-                          .ToArrayAsync(ctx.CancellationToken);
-              });
-        }
+      FieldAsync<ListGraphType<TeamType>>(
+        "teams",
+        resolve: async ctx =>
+        {
+          var dbCtx = ctx.UserContext.As<GraphQlUserContext>().DbContext;
+          return await dbCtx.Teams
+                        .Include(t => t.MatchesAwayTeam)
+                          .ThenInclude(m => m.Tickets)
+                        .Include(m => m.MatchesHomeTeam)
+                          .ThenInclude(m => m.Tickets)
+                        .Include(m => m.MatchesWinningTeam)
+                        .Include(t => t.Contestants)
+                        .ToArrayAsync(ctx.CancellationToken);
+        });
     }
+  }
 
-    public class ContestantType : ObjectGraphType<Contestant>
+  public class ContestantType : ObjectGraphType<Contestant>
+  {
+    public ContestantType()
     {
-        public ContestantType()
+      Field(r => r.Id, type: typeof(IdGraphType));
+      Field(r => r.DominantHand);
+      Field(r => r.Name);
+      FieldAsync<TeamType>(
+        "team",
+        resolve: async ctx =>
         {
-            Field(r => r.Id, type: typeof(IdGraphType));
-            Field(r => r.DominantHand);
-            Field(r => r.Name);
-            FieldAsync<TeamType>(
-              "team",
-              resolve: async ctx =>
-              {
-                  var contestant = ctx.Source;
-                  var dbCtx = ctx.UserContext.As<GraphQlUserContext>().DbContext;;
-                  return await dbCtx.Teams.AsNoTracking().SingleAsync(c => c.Id == contestant.TeamId, ctx.CancellationToken);
-              });
-        }
+          var contestant = ctx.Source;
+          var dbCtx = ctx.UserContext.As<GraphQlUserContext>().DbContext; ;
+          return await dbCtx.Teams.AsNoTracking().SingleAsync(c => c.Id == contestant.TeamId, ctx.CancellationToken);
+        });
     }
+  }
 
-    public class TeamType : ObjectGraphType<Team>
+  public class TeamType : ObjectGraphType<Team>
+  {
+    public TeamType()
     {
-        public TeamType()
+      Field(r => r.Id, type: typeof(IdGraphType));
+      Field(r => r.Name);
+      Field(r => r.JoinDate);
+      Field(r => r.TicketsSoldCount, type: typeof(IntGraphType));
+      //Field(r => r.AverageWinRate, type: typeof(FloatGraphType));
+      
+      FieldAsync<ListGraphType<ContestantType>>(
+        "contestants",
+        resolve: async ctx =>
         {
-            Field(r => r.Id, type: typeof(IdGraphType));
-            Field(r => r.Name);
-            Field(r => r.JoinDate);
+          var team = ctx.Source;
+          var dbCtx = ctx.UserContext.As<GraphQlUserContext>().DbContext; ;
+          return await dbCtx.Contestants
+            .Where(c => c.TeamId == team.Id).AsNoTracking()
+            .ToArrayAsync(ctx.CancellationToken);
+        });
 
-            Field(r => r.AverageWinRate, type: typeof(FloatGraphType));
-
-            FieldAsync<ListGraphType<ContestantType>>(
-              "contestants",
-              resolve: async ctx =>
-              {
-                  var team = ctx.Source;
-                  var dbCtx = ctx.UserContext.As<GraphQlUserContext>().DbContext;;
-                  return await dbCtx.Contestants
-              .Where(c => c.TeamId == team.Id).AsNoTracking()
-              .ToArrayAsync(ctx.CancellationToken);
-              });
-
-            FieldAsync<ListGraphType<MatchType>>(
-              "matches",
-              resolve: async ctx =>
-              {
-                  var team = ctx.Source;
-                  var dbCtx = ctx.UserContext.As<GraphQlUserContext>().DbContext;;
-                  return await dbCtx.Matches
-              .Where(m => m.HomeTeamId == team.Id || m.AwayTeamId == team.Id)
-              .AsNoTracking()
-              .ToArrayAsync(ctx.CancellationToken);
-              });
-
-            // Authz
-            FieldAsync<IntGraphType>("ticketsSold", resolve: async ctx =>
-            {
-                var team = ctx.Source;
-                var dbCtx = ctx.UserContext.As<GraphQlUserContext>().DbContext;;
-                return await dbCtx.Matches
+      FieldAsync<ListGraphType<MatchType>>(
+        "matches",
+        resolve: async ctx =>
+        {
+          var team = ctx.Source;
+          var dbCtx = ctx.UserContext.As<GraphQlUserContext>().DbContext;
+          return await dbCtx.Matches
             .Where(m => m.HomeTeamId == team.Id || m.AwayTeamId == team.Id)
-            .SelectMany(m => m.Tickets)
             .AsNoTracking()
-            .CountAsync(ctx.CancellationToken);
-            }).RequestClaim(CuddlesRole.Admin);
-        }
-    }
+            .ToArrayAsync(ctx.CancellationToken);
+        });
 
-    public class MatchType : ObjectGraphType<Match>
+      FieldAsync<IntGraphType>("numberOfWins", resolve: async ctx =>
+      {
+        var team = ctx.Source;
+        var dbCtx = ctx.UserContext.As<GraphQlUserContext>().DbContext;
+        return await dbCtx.Matches
+          .Where(m => m.HomeTeamId == team.Id || m.AwayTeamId == team.Id)
+          .SelectMany(m => m.Tickets)
+          .AsNoTracking()
+          .CountAsync(ctx.CancellationToken);
+      }); //.RequestClaim(CuddlesRole.Admin);
+
+      // Authz
+      //FieldAsync<IntGraphType>("ticketsSold", resolve: async ctx =>
+      //{
+      //  var team = ctx.Source;
+      //  var dbCtx = ctx.UserContext.As<GraphQlUserContext>().DbContext; ;
+      //  return await dbCtx.Matches
+      //    .Where(m => m.HomeTeamId == team.Id || m.AwayTeamId == team.Id)
+      //    .SelectMany(m => m.Tickets)
+      //    .AsNoTracking()
+      //    .CountAsync(ctx.CancellationToken);
+      //}); //.RequestClaim(CuddlesRole.Admin);
+
+      //Field<IntGraphType>("ticketsSold", );
+    }
+  }
+
+  public class MatchType : ObjectGraphType<Match>
+  {
+    public MatchType()
     {
-        public MatchType()
+      Field(m => m.Id, type: typeof(IdGraphType));
+      Field(m => m.Date, type: typeof(DateGraphType));
+      //Field(m => m.HomeTeam, type: typeof(TeamType));
+      //Field(m => m.AwayTeam, type: typeof(TeamType));
+      //Field(m => m.WinningTeam, type: typeof(TeamType), nullable: true);
+      Field(m => m.HomeOdds, type: typeof(FloatGraphType));
+      Field(m => m.AwayOdds, type: typeof(FloatGraphType));
+      FieldAsync<ListGraphType<TicketType>>("tickets",
+        resolve: async ctx =>
         {
-            Field(m => m.Id, type: typeof(IdGraphType));
-            Field(m => m.Date, type: typeof(DateGraphType));
-            Field(m => m.HomeTeam, type: typeof(TeamType));
-            Field(m => m.AwayTeam, type: typeof(TeamType));
-            Field(m => m.WinningTeam, type: typeof(TeamType), nullable: true);
-            Field(m => m.HomeOdds, type: typeof(FloatGraphType));
-            Field(m => m.AwayOdds, type: typeof(FloatGraphType));
-            FieldAsync<ListGraphType<TicketType>>("tickets",
-              resolve: async ctx =>
-              {
-                  var match = ctx.Source;
-                  var dbCtx = ctx.UserContext.As<GraphQlUserContext>().DbContext;;
-                  return await dbCtx.Tickets.Where(t => t.MatchId == match.Id).AsNoTracking().ToArrayAsync(ctx.CancellationToken);
-              });
+          var match = ctx.Source;
+          var dbCtx = ctx.UserContext.As<GraphQlUserContext>().DbContext;
+          return await dbCtx.Tickets.Where(t => t.MatchId == match.Id).AsNoTracking().ToArrayAsync(ctx.CancellationToken);
+        });
 
-            FieldAsync<UmpireType>(
-              "umpire",
-              resolve: async ctx =>
-              {
-                  var match = ctx.Source;
-                  var dbCtx = ctx.UserContext.As<GraphQlUserContext>().DbContext;;
-                  return await dbCtx.Umpires.SingleAsync(u => u.Id == match.UmpireId, ctx.CancellationToken);
-              });
-        }
+      FieldAsync<UmpireType>(
+        "umpire",
+        resolve: async ctx =>
+        {
+          var match = ctx.Source;
+          var dbCtx = ctx.UserContext.As<GraphQlUserContext>().DbContext; ;
+          return await dbCtx.Umpires.SingleAsync(u => u.Id == match.UmpireId, ctx.CancellationToken);
+        });
     }
+  }
 
-    public class TicketType : ObjectGraphType<Ticket>
+  public class TicketType : ObjectGraphType<Ticket>
+  {
+    public TicketType()
     {
-        public TicketType()
-        {
-            Field(t => t.Price, type: typeof(FloatGraphType));
-            Field(t => t.Seat);
-            Field(t => t.Venue, type: typeof(VenueType));
-            Field(t => t.Match, type: typeof(MatchType));
-        }
+      Field(t => t.Price, type: typeof(FloatGraphType));
+      Field(t => t.Seat);
+      Field(t => t.Venue, type: typeof(VenueType));
+      Field(t => t.Match, type: typeof(MatchType));
     }
+  }
 
-    public class UmpireType : ObjectGraphType<Umpire>
+  public class UmpireType : ObjectGraphType<Umpire>
+  {
+    public UmpireType()
     {
-        public UmpireType()
+      Field(u => u.Name);
+      Field(u => u.TotalMatchStops);
+      FieldAsync<ListGraphType<MatchType>>("matches",
+        resolve: async ctx =>
         {
-            Field(u => u.Name);
-            Field(u => u.TotalMatchStops);
-            FieldAsync<ListGraphType<MatchType>>("matches",
-              resolve: async ctx =>
-              {
-                  var umpire = ctx.Source;
-                  var dbCtx = ctx.UserContext.As<GraphQlUserContext>().DbContext;;
-                  return await dbCtx.Matches.Where(m => m.UmpireId == umpire.Id).AsNoTracking().ToArrayAsync(ctx.CancellationToken);
-              });
-        }
+          var umpire = ctx.Source;
+          var dbCtx = ctx.UserContext.As<GraphQlUserContext>().DbContext; ;
+          return await dbCtx.Matches.Where(m => m.UmpireId == umpire.Id).AsNoTracking().ToArrayAsync(ctx.CancellationToken);
+        });
     }
+  }
 
-    public class VenueType : ObjectGraphType<Venue>
+  public class VenueType : ObjectGraphType<Venue>
+  {
+    public VenueType()
     {
-        public VenueType()
-        {
-            Field(v => v.Name);
-            Field(v => v.Capacity);
-            Field(v => v.Tickets, type: typeof(ListGraphType<TicketType>));
-        }
+      Field(v => v.Name);
+      Field(v => v.Capacity);
+      Field(v => v.Tickets, type: typeof(ListGraphType<TicketType>));
     }
+  }
 
-    public class DominantHandEnum : EnumerationGraphType
+  public class DominantHandEnum : EnumerationGraphType
+  {
+    public DominantHandEnum()
     {
-        public DominantHandEnum()
-        {
-            Name = nameof(DominantHand);
-            AddValue(nameof(DominantHand.Both), "Both Hands", (int)DominantHand.Both);
-            AddValue(nameof(DominantHand.Right), "Right Hand", (int)DominantHand.Right);
-            AddValue(nameof(DominantHand.Left), "Left Hand", (int)DominantHand.Left);
-        }
+      Name = nameof(DominantHand);
+      AddValue(nameof(DominantHand.Both), "Both Hands", (int)DominantHand.Both);
+      AddValue(nameof(DominantHand.Right), "Right Hand", (int)DominantHand.Right);
+      AddValue(nameof(DominantHand.Left), "Left Hand", (int)DominantHand.Left);
     }
+  }
 }

@@ -7,7 +7,7 @@ namespace ToughCuddles.Data.Models
     public partial class ToughCuddlesContext : DbContext
     {
         public virtual DbSet<Contestant> Contestants { get; set; }
-        public virtual DbSet<Doctors> Doctors { get; set; }
+        public virtual DbSet<Doctor> Doctors { get; set; }
         public virtual DbSet<Match> Matches { get; set; }
         public virtual DbSet<Team> Teams { get; set; }
         public virtual DbSet<Ticket> Tickets { get; set; }
@@ -18,6 +18,7 @@ namespace ToughCuddles.Data.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=ToughCuddles;Trusted_Connection=True;");
             }
         }
@@ -39,7 +40,7 @@ namespace ToughCuddles.Data.Models
                     .HasConstraintName("FK_Contestant_Team");
             });
 
-            modelBuilder.Entity<Doctors>(entity =>
+            modelBuilder.Entity<Doctor>(entity =>
             {
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
