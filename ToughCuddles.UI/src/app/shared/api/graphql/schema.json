@@ -1034,9 +1034,13 @@
                             "description": null,
                             "args": [],
                             "type": {
-                                "kind": "ENUM",
-                                "name": "DominantHand",
-                                "ofType": null
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "SCALAR",
+                                    "name": "Int",
+                                    "ofType": null
+                                }
                             },
                             "isDeprecated": false,
                             "deprecationReason": null
@@ -1073,35 +1077,6 @@
                     "inputFields": null,
                     "interfaces": [],
                     "enumValues": null,
-                    "possibleTypes": null
-                },
-                {
-                    "kind": "ENUM",
-                    "name": "DominantHand",
-                    "description": null,
-                    "fields": null,
-                    "inputFields": null,
-                    "interfaces": null,
-                    "enumValues": [
-                        {
-                            "name": "Both",
-                            "description": "Both Hands",
-                            "isDeprecated": false,
-                            "deprecationReason": null
-                        },
-                        {
-                            "name": "Right",
-                            "description": "Right Hand",
-                            "isDeprecated": false,
-                            "deprecationReason": null
-                        },
-                        {
-                            "name": "Left",
-                            "description": "Left Hands",
-                            "isDeprecated": false,
-                            "deprecationReason": null
-                        }
-                    ],
                     "possibleTypes": null
                 },
                 {
@@ -1154,6 +1129,18 @@
                             "deprecationReason": null
                         },
                         {
+                            "name": "ticketsSoldCount",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "Int",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
                             "name": "averageWinRate",
                             "description": null,
                             "args": [],
@@ -1196,18 +1183,6 @@
                             },
                             "isDeprecated": false,
                             "deprecationReason": null
-                        },
-                        {
-                            "name": "ticketsSold",
-                            "description": null,
-                            "args": [],
-                            "type": {
-                                "kind": "SCALAR",
-                                "name": "Int",
-                                "ofType": null
-                            },
-                            "isDeprecated": false,
-                            "deprecationReason": null
                         }
                     ],
                     "inputFields": null,
@@ -1239,42 +1214,6 @@
                             "type": {
                                 "kind": "SCALAR",
                                 "name": "Date",
-                                "ofType": null
-                            },
-                            "isDeprecated": false,
-                            "deprecationReason": null
-                        },
-                        {
-                            "name": "homeTeam",
-                            "description": null,
-                            "args": [],
-                            "type": {
-                                "kind": "OBJECT",
-                                "name": "TeamType",
-                                "ofType": null
-                            },
-                            "isDeprecated": false,
-                            "deprecationReason": null
-                        },
-                        {
-                            "name": "awayTeam",
-                            "description": null,
-                            "args": [],
-                            "type": {
-                                "kind": "OBJECT",
-                                "name": "TeamType",
-                                "ofType": null
-                            },
-                            "isDeprecated": false,
-                            "deprecationReason": null
-                        },
-                        {
-                            "name": "winningTeam",
-                            "description": null,
-                            "args": [],
-                            "type": {
-                                "kind": "OBJECT",
-                                "name": "TeamType",
                                 "ofType": null
                             },
                             "isDeprecated": false,

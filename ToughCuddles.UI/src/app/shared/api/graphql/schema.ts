@@ -1,8 +1,13 @@
 /* tslint:disable */
 //  This file was automatically generated and should not be edited.
 
-export type DominantHand = "Both" | "Right" | "Left";
-
+export type AverageWinsTicketsQuery = {
+  teams:  Array< {
+    name: string,
+    ticketsSoldCount: number | null,
+    averageWinRate: number | null,
+  } | null > | null,
+};
 
 export type AllTeamsQuery = {
   teams:  Array< {
@@ -22,7 +27,7 @@ export type ContestantQuery = {
   contestant:  {
     id: string | null,
     name: string,
-    dominantHand: DominantHand | null,
+    dominantHand: number,
   } | null,
 };
 /* tslint:enable */

@@ -3,7 +3,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import 'rxjs/add/operator/switchMap';
 
 import { ContestantsService } from '../contestants.service';
-import { ContestantQuery, DominantHand } from '../../../shared/api/graphql/schema';
+import { ContestantQuery } from '../../../shared/api/graphql/schema';
 
 @Component({
   selector: 'app-edit-contestant',
