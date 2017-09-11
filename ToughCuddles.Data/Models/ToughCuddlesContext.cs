@@ -29,6 +29,10 @@ namespace ToughCuddles.Data.Models
             {
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
+                entity.Property(e => e.ImageUrl)
+                    .IsRequired()
+                    .HasMaxLength(400);
+
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(100);

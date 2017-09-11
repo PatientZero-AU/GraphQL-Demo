@@ -81,8 +81,10 @@ namespace ToughCuddles.Data.GraphQL
     public ContestantType()
     {
       Field(r => r.Id, type: typeof(IdGraphType));
-      Field(r => r.DominantHand);
+      
       Field(r => r.Name);
+      Field(r => r.ImageUrl);
+      Field(r => r.DominantHand);
       FieldAsync<TeamType>(
         "team",
         resolve: async ctx =>

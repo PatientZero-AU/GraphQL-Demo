@@ -12,6 +12,7 @@ CREATE TABLE [dbo].[Contestants]
 	[Name] NVARCHAR(100) NOT NULL,
 	[TeamId] UNIQUEIDENTIFIER NOT NULL, 
     [DominantHand] INT NOT NULL, 
+	[ImageUrl] NVARCHAR(400) NOT NULL,
     CONSTRAINT [FK_Contestant_Team] FOREIGN KEY ([TeamId]) REFERENCES [Teams]([Id])
 )
 

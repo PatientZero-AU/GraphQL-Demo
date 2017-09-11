@@ -44,15 +44,15 @@ INSERT INTO dbo.Teams   (Id, Name, JoinDate)
 						(@Team3, 'Team C', DATEADD(MM, -10, GETDATE())),
 						(@Team4, 'Team D', DATEADD(YY, -1, GETDATE()))
 
-INSERT INTO dbo.Contestants (Id, Name, TeamId, DominantHand)
-				VALUES (@Contestant1, 'Name 1', @Team1, 0),
-						(@Contestant2, 'Name 2', @Team1, 1),
-						(@Contestant3, 'Name 3', @Team2, 2),
-						(@Contestant4, 'Name 4', @Team2, 2),
-						(@Contestant5, 'Name 5', @Team3, 1),
-						(@Contestant6, 'Name 6', @Team3, 0),
-						(@Contestant7, 'Name 7', @Team4, 1),
-						(@Contestant8, 'Name 8', @Team4, 1)
+INSERT INTO dbo.Contestants (Id, Name, TeamId, DominantHand, ImageUrl)
+				VALUES (@Contestant1, 'Name 1', @Team1, 0, ''),
+						(@Contestant2, 'Name 2', @Team1, 1, ''),
+						(@Contestant3, 'Name 3', @Team2, 2, ''),
+						(@Contestant4, 'Name 4', @Team2, 2, ''),
+						(@Contestant5, 'Name 5', @Team3, 1, ''),
+						(@Contestant6, 'Name 6', @Team3, 0, ''),
+						(@Contestant7, 'Name 7', @Team4, 1, ''),
+						(@Contestant8, 'Name 8', @Team4, 1, '')
 
 INSERT INTO dbo.Umpires (Id, Name, TotalMatchStops)
 			VALUES (@Umpire, 'Umpire 1', 3)
