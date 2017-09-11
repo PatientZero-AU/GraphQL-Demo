@@ -1,0 +1,9 @@
+query VenueTicketSales {
+  venues {
+    name
+    ticketSales{
+      item1
+      item2
+    }
+  }
+}

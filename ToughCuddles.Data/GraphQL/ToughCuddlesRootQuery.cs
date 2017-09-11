@@ -191,13 +191,14 @@ namespace ToughCuddles.Data.GraphQL
       Field(v => v.Name);
       Field(v => v.Capacity);
       Field(v => v.Tickets, type: typeof(ListGraphType<TicketType>));
-      Field<ListGraphType<TestType>>("ticketSales",
+      Field<ListGraphType<TupleType>>("ticketSales",
         resolve: ctx =>
         {
           var venue = ctx.Source;
           
           var ticketsPerWeek = venue.Tickets
-                                .GroupBy(t => t.Match.Date)
+                                .GroupBy(t => t.DateSold.Date)
+                                .OrderBy(t => t.Key)
                                 .ToDictionary(t => t.Key, t => t.Count())
                                 .ToTupleList();
 
@@ -206,9 +207,9 @@ namespace ToughCuddles.Data.GraphQL
     }
   }
 
-  public class TestType : ObjectGraphType<Tuple<DateTimeOffset, int>>
+  public class TupleType : ObjectGraphType<Tuple<DateTime, int>>
   {
-    public TestType()
+    public TupleType()
     {
       Field(t => t.Item1, type: typeof(DateGraphType));
       Field(t => t.Item2, type: typeof(IntGraphType));

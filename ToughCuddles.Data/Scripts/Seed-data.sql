@@ -1,9 +1,9 @@
-﻿DELETE FROM dbo.Matches;
-DELETE FROM dbo.Umpires;
-DELETE FROM dbo.Teams;
+﻿DELETE FROM dbo.Teams;
 DELETE FROM dbo.Contestants;
 DELETE FROM dbo.Venues;
 DELETE FROM dbo.Tickets;
+DELETE FROM dbo.Matches;
+DELETE FROM dbo.Umpires;
 
 Declare @Team1 UNIQUEIDENTIFIER = NEWID();
 Declare @Contestant1 UNIQUEIDENTIFIER = NEWID();
@@ -67,47 +67,80 @@ INSERT INTO dbo.Matches (Id, HomeTeamId, AwayTeamId, Date, HomeOdds, AwayOdds, U
 						(@Match7, @Team1, @Team3, DATEADD(dd, -12, GETDATE()), (RAND() * 10) + RAND(), (RAND() * 10) + RAND(), @Umpire, @Team1)
 
 INSERT INTO dbo.Venues (Id, Name, Capacity)
-				VALUES  (@Venue1, 'Venue 1', 17),
-						(@Venue2, 'Venue 2', 10),
-						(@Venue3, 'Venue 3', 30)
+				VALUES  (@Venue1, 'Venue 1', 35),
+						(@Venue2, 'Venue 2', 40),
+						(@Venue3, 'Venue 3', 55)
 
-INSERT INTO dbo.Tickets (Id, MatchId, Price, Seat, VenueId)
-				 VALUES (NEWID(), @Match1, 40, '3A', @Venue1),
-						(NEWID(), @Match1, 30, '3B', @Venue1),
-						(NEWID(), @Match1, 30, '3C', @Venue1),
-						(NEWID(), @Match1, 40, '1A', @Venue1),
-						(NEWID(), @Match1, 40, '2A', @Venue1),
-						(NEWID(), @Match1, 40, '2B', @Venue1),
-						(NEWID(), @Match1, 30, '4C', @Venue1),
-						(NEWID(), @Match1, 10, '2D', @Venue1),
-						(NEWID(), @Match1, 15, '1D', @Venue1),
-						(NEWID(), @Match1, 40, '4A', @Venue1),
-						(NEWID(), @Match1, 40, '2C', @Venue1),
+INSERT INTO dbo.Tickets (Id, MatchId, Price, Seat, VenueId, DateSold)
+			     VALUES (NEWID(), @Match1, 40, '3A', @Venue1, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match1, 30, '3B', @Venue1, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match1, 30, '3C', @Venue1, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match1, 40, '1A', @Venue1, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match1, 40, '2A', @Venue1, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match1, 40, '2B', @Venue1, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match1, 30, '4C', @Venue1, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match1, 10, '2D', @Venue1, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match1, 15, '1D', @Venue1, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match1, 40, '4A', @Venue1, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match1, 40, '2C', @Venue1, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match1, 40, '3A', @Venue1, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match1, 30, '3B', @Venue1, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match1, 30, '3C', @Venue1, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match1, 40, '1A', @Venue1, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match1, 40, '2A', @Venue1, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match1, 40, '2B', @Venue1, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match1, 30, '4C', @Venue1, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match1, 10, '2D', @Venue1, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match1, 15, '1D', @Venue1, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match1, 40, '4A', @Venue1, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match1, 40, '2C', @Venue1, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
 
-						(NEWID(), @Match3, 40, '3A', @Venue2),
-						(NEWID(), @Match3, 30, '3B', @Venue2),
-						(NEWID(), @Match3, 30, '3C', @Venue2),
-						(NEWID(), @Match3, 40, '1A', @Venue2),
+						(NEWID(), @Match3, 40, '3A', @Venue2, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match3, 30, '3B', @Venue2, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match3, 30, '3C', @Venue2, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match3, 40, '1A', @Venue2, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match3, 40, '3A', @Venue2, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match3, 30, '3B', @Venue2, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match3, 30, '3C', @Venue2, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match3, 40, '1A', @Venue2, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match3, 40, '3A', @Venue2, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match3, 30, '3B', @Venue2, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match3, 30, '3C', @Venue2, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match3, 40, '1A', @Venue2, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match3, 40, '3A', @Venue2, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match3, 30, '3B', @Venue2, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match3, 30, '3C', @Venue2, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match3, 40, '1A', @Venue2, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
 
-						(NEWID(), @Match6, 40, '3A', @Venue3),
-						(NEWID(), @Match6, 30, '3B', @Venue3),
-						(NEWID(), @Match6, 30, '3C', @Venue3),
-						(NEWID(), @Match6, 40, '1A', @Venue3),
-						(NEWID(), @Match6, 40, '2A', @Venue3),
-						(NEWID(), @Match6, 40, '2B', @Venue3),
-						(NEWID(), @Match6, 30, '4C', @Venue3),
-						(NEWID(), @Match6, 10, '2D', @Venue3)
-
-
---INSERT INTO [dbo].[Doctors] (Id, Name)
---					VALUES  (@Doctor1, 'Doctor 1'),
---							(@Doctor2, 'Doctor 2')
-
-
-
--- Select * FROM dbo.Teams;
--- Select * FROM dbo.Contestants;
--- Select * FROM dbo.Umpires;
--- Select * FROM dbo.Matches;
--- Select * FROM dbo.Venues;
--- Select * FROM dbo.Tickets;
+						(NEWID(), @Match6, 40, '3A', @Venue3, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match6, 30, '3B', @Venue3, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match6, 30, '3C', @Venue3, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match6, 40, '1A', @Venue3, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match6, 40, '2A', @Venue3, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match6, 40, '2B', @Venue3, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match6, 30, '4C', @Venue3, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match6, 10, '2D', @Venue3, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match6, 40, '3A', @Venue3, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match6, 30, '3B', @Venue3, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match6, 30, '3C', @Venue3, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match6, 40, '1A', @Venue3, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match6, 40, '2A', @Venue3, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match6, 40, '2B', @Venue3, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match6, 30, '4C', @Venue3, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match6, 10, '2D', @Venue3, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match6, 40, '3A', @Venue3, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match6, 30, '3B', @Venue3, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match6, 30, '3C', @Venue3, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match6, 40, '1A', @Venue3, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match6, 40, '2A', @Venue3, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match6, 40, '2B', @Venue3, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match6, 30, '4C', @Venue3, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match6, 10, '2D', @Venue3, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match6, 40, '3A', @Venue3, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match6, 30, '3B', @Venue3, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match6, 30, '3C', @Venue3, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match6, 40, '1A', @Venue3, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match6, 40, '2A', @Venue3, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match6, 40, '2B', @Venue3, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match6, 30, '4C', @Venue3, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),
+						(NEWID(), @Match6, 10, '2D', @Venue3, DATEADD(dd, -10, GETDATE() + (RAND() * 5)))

@@ -96,6 +96,8 @@ namespace ToughCuddles.Data.Models
             {
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
+                entity.Property(e => e.DateSold).HasColumnType("datetime");
+
                 entity.Property(e => e.Price).HasColumnType("decimal(10, 2)");
 
                 entity.Property(e => e.Seat)

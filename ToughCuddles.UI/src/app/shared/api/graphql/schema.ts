@@ -9,6 +9,16 @@ export type AverageWinsTicketsQuery = {
   } | null > | null,
 };
 
+export type VenueTicketSalesQuery = {
+  venues:  Array< {
+    name: string,
+    ticketSales:  Array< {
+      item1: string | null,
+      item2: number | null,
+    } | null > | null,
+  } | null > | null,
+};
+
 export type AllTeamsQuery = {
   teams:  Array< {
     name: string,
