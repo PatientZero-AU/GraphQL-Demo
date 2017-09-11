@@ -42,7 +42,7 @@ namespace ToughCuddles.Web
             {
                 options.AddPolicy("AllowSpecificOrigin",
             builder => builder
-              .WithOrigins("http://localhost:4200")
+              .WithOrigins("http://localhost:4200", "http://localhost:3000")
               .WithMethods("POST", "GET", "OPTIONS")
               .AllowAnyHeader()
               .AllowCredentials()

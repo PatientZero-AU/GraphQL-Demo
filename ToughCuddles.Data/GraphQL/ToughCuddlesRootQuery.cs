@@ -1,9 +1,11 @@
 ﻿using GraphQL.Types;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using GraphQL;
 using ToughCuddles.Core.Enums;
+using ToughCuddles.Core.Helpers;
 using ToughCuddles.Data.Context;
 using ToughCuddles.Data.Enums;
 using ToughCuddles.Data.Models;
@@ -58,6 +60,17 @@ namespace ToughCuddles.Data.GraphQL
                         .Include(t => t.Contestants)
                         .ToArrayAsync(ctx.CancellationToken);
         });
+
+      FieldAsync<ListGraphType<VenueType>>(
+        "venues",
+        resolve: async ctx =>
+        {
+          var dbCtx = ctx.UserContext.As<GraphQlUserContext>().DbContext;
+          return await dbCtx.Venues
+            .Include(v => v.Tickets)
+              .ThenInclude(t => t.Match)
+            .ToArrayAsync(ctx.CancellationToken);
+        });
     }
   }
 
@@ -88,7 +101,7 @@ namespace ToughCuddles.Data.GraphQL
       Field(r => r.JoinDate);
       Field(r => r.TicketsSoldCount, type: typeof(IntGraphType));
       Field(r => r.AverageWinRate, type: typeof(FloatGraphType));
-      
+
       FieldAsync<ListGraphType<ContestantType>>(
         "contestants",
         resolve: async ctx =>
@@ -178,6 +191,27 @@ namespace ToughCuddles.Data.GraphQL
       Field(v => v.Name);
       Field(v => v.Capacity);
       Field(v => v.Tickets, type: typeof(ListGraphType<TicketType>));
+      Field<ListGraphType<TestType>>("ticketSales",
+        resolve: ctx =>
+        {
+          var venue = ctx.Source;
+          
+          var ticketsPerWeek = venue.Tickets
+                                .GroupBy(t => t.Match.Date)
+                                .ToDictionary(t => t.Key, t => t.Count())
+                                .ToTupleList();
+
+          return ticketsPerWeek;
+        });
+    }
+  }
+
+  public class TestType : ObjectGraphType<Tuple<DateTimeOffset, int>>
+  {
+    public TestType()
+    {
+      Field(t => t.Item1, type: typeof(DateGraphType));
+      Field(t => t.Item2, type: typeof(IntGraphType));
     }
   }
 
@@ -191,4 +225,5 @@ namespace ToughCuddles.Data.GraphQL
       AddValue(nameof(DominantHand.Left), "Left Hand", (int)DominantHand.Left);
     }
   }
+
 }
