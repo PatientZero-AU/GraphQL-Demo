@@ -58,6 +58,7 @@ namespace ToughCuddles.Data.GraphQL
                           .ThenInclude(m => m.Tickets)
                         .Include(m => m.MatchesWinningTeam)
                         .Include(t => t.Contestants)
+                        .OrderBy(t => t.Name)
                         .ToArrayAsync(ctx.CancellationToken);
         });
 
@@ -69,6 +70,7 @@ namespace ToughCuddles.Data.GraphQL
           return await dbCtx.Venues
             .Include(v => v.Tickets)
               .ThenInclude(t => t.Match)
+            .OrderBy(v => v.Name)
             .ToArrayAsync(ctx.CancellationToken);
         });
     }

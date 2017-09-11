@@ -13,6 +13,8 @@ export class AdminDashboardComponent implements OnInit {
 
   averageWins: AverageWinsTicketsQuery;
   ticketSales: VenueTicketSalesQuery;
+  borderColors: string[] = ['#009688', '#ee2c00', '#ffc107'];
+  backgroundColor: string[] = ['rgba(0, 150, 136, 0.5)', 'rgba(238, 44, 0, 0.5)', 'rgba(255, 193, 7, 0.5)'];
 
   done = false;
   bar: any = {
@@ -62,24 +64,23 @@ export class AdminDashboardComponent implements OnInit {
       }))
       .reduce((a, b) => a.concat(b));
 
-    let arr = new Array<any>();
-    for (let i = this.ticketSales.venues.length - 1; 0 <= i; --i) {
-      const venue = this.ticketSales.venues[i];
-      arr.push({
-        label: venue.name,
-        borderColor: '#009688',
-        backgroundColor: 'rgba(0, 150, 136, 0.5)',
-        data: venue.ticketSales.map(t => t.item2)
-      });
-    }
-
-    console.log(arr);
+    const count =
+      this.ticketSales
+        .venues
+        .map((v, i) => {
+          return {
+            label: v.name,
+            data: v.ticketSales.map(t => t.item2),
+            borderColor: this.borderColors[i],
+            backgroundColor: this.backgroundColor[i],
+          };
+        });
 
     this.line = {
       type: 'line',
       data: {
         labels: Array.from(new Set(dates)),
-        datasets: arr
+        datasets: count
       }
     };
 
