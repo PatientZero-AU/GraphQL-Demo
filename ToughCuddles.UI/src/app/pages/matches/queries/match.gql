@@ -8,6 +8,10 @@ query Match($matchId: ID!) {
       weightKgAvg
       reachCmAvg
       strikesMinAvg
+      contestants{
+        name
+        imageUrl
+      }
     }
     homeOdds
     awayTeam {
@@ -16,6 +20,10 @@ query Match($matchId: ID!) {
       weightKgAvg
       reachCmAvg
       strikesMinAvg
+      contestants{
+        name
+        imageUrl
+      }
     }
     awayOdds
     umpire {

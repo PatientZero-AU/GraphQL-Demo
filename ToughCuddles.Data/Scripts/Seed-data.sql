@@ -51,10 +51,10 @@ INSERT INTO dbo.Teams   (Id, Name, JoinDate)
 						(@Team4, 'Team D', DATEADD(YY, -1, GETDATE()))
 
 INSERT INTO dbo.Contestants (Id, Name, TeamId, DominantHand, ImageUrl, HeightCm, WeightKg, ReachCm, StrikesMin)
-				VALUES (@Contestant1, 'Name 1', @Team1, 0, '', 40, 4, 50, 3),
-						(@Contestant2, 'Name 2', @Team1, 1, '', 31.2, 2.5, 39.3, 4),
-						(@Contestant3, 'Name 3', @Team2, 2, '', 38.5, 3.2, 48, 3),
-						(@Contestant4, 'Name 4', @Team2, 2, '', 39.6, 3.6, 46.5, 5),
+				VALUES (@Contestant1, 'Gonzo the Great', @Team1, 0, 'https://lumiere-a.akamaihd.net/v1/images/character_themuppets_gonzo_9c3596c6.jpeg?region=0,0,300,300', 40, 4, 50, 3),
+						(@Contestant2, 'Fozzie Bear', @Team1, 1, 'https://lumiere-a.akamaihd.net/v1/images/character_themuppets_fozzie_5314c3f1.jpeg?region=0,0,300,300', 31.2, 2.5, 39.3, 4),
+						(@Contestant3, 'Animal', @Team2, 2, 'https://lumiere-a.akamaihd.net/v1/images/character_themuppets_animal_9d53d6e7.jpeg?region=0,0,300,300', 38.5, 3.2, 48, 3),
+						(@Contestant4, 'Pepe the Prawn', @Team2, 2, 'https://lumiere-a.akamaihd.net/v1/images/character_themuppets_pepe_86d94b17.jpeg?region=0,0,300,300', 39.6, 3.6, 46.5, 5),
 						(@Contestant5, 'Name 5', @Team3, 1, '', 42.3, 4.1, 52, 6),
 						(@Contestant6, 'Name 6', @Team3, 0, '', 29.8, 2.2, 42.9, 2),
 						(@Contestant7, 'Name 7', @Team4, 1, '', 33, 2.9, 36.9, 4),

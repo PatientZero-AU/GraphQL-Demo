@@ -72,6 +72,10 @@ export type MatchQuery = {
       weightKgAvg: number | null,
       reachCmAvg: number | null,
       strikesMinAvg: number | null,
+      contestants:  Array< {
+        name: string,
+        imageUrl: string,
+      } | null > | null,
     } | null,
     homeOdds: number | null,
     awayTeam:  {
@@ -80,6 +84,10 @@ export type MatchQuery = {
       weightKgAvg: number | null,
       reachCmAvg: number | null,
       strikesMinAvg: number | null,
+      contestants:  Array< {
+        name: string,
+        imageUrl: string,
+      } | null > | null,
     } | null,
     awayOdds: number | null,
     umpire:  {

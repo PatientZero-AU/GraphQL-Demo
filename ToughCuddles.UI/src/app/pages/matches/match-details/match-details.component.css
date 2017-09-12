@@ -10,3 +10,8 @@ td:nth-child(2) {
 td:nth-child(3) {
     text-align: left;
 }
+
+img {
+    border-radius: 20px;
+    height: 100px;
+}
