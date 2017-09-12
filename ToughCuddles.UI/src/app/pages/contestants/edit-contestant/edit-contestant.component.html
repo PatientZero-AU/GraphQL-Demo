@@ -1,6 +1,10 @@
 <md-toolbar color="primary">
   <md-toolbar-row>
-    <h1 class="page-card-flexible-title">Edit Contestant</h1>
+    <div>
+      <img class="thumb" [alt]="data?.contestant.name" width="150px" height="150px" data-aspect_ratio="1" data-orientation="landscape"
+        data-legacy="true" [src]="data?.contestant.imageUrl">
+    </div>
+    <h1 class="page-card-flexible-title">{{ data?.contestant.name }}</h1>
   </md-toolbar-row>
   <md-toolbar-row></md-toolbar-row>
 </md-toolbar>

@@ -45,20 +45,20 @@ Declare @Doctor1 UNIQUEIDENTIFIER = NEWID();
 DECLARE @Doctor2 UNIQUEIDENTIFIER = NEWID();
 
 INSERT INTO dbo.Teams   (Id, Name, JoinDate) 
-				VALUES  (@Team1, 'Team A', DATEADD(YY, -1, GETDATE())),
-						(@Team2, 'Team B', DATEADD(MM, -11, GETDATE())),
-						(@Team3, 'Team C', DATEADD(MM, -10, GETDATE())),
-						(@Team4, 'Team D', DATEADD(YY, -1, GETDATE()))
+				VALUES  (@Team1, 'Cuddly Nightmares', DATEADD(YY, -1, GETDATE())),
+						(@Team2, 'Electric Mayhem', DATEADD(MM, -11, GETDATE())),
+						(@Team3, 'Outcasts', DATEADD(MM, -10, GETDATE())),
+						(@Team4, 'International Scandal', DATEADD(YY, -1, GETDATE()))
 
 INSERT INTO dbo.Contestants (Id, Name, TeamId, DominantHand, ImageUrl, HeightCm, WeightKg, ReachCm, StrikesMin)
 				VALUES (@Contestant1, 'Gonzo the Great', @Team1, 0, 'https://lumiere-a.akamaihd.net/v1/images/character_themuppets_gonzo_9c3596c6.jpeg?region=0,0,300,300', 40, 4, 50, 3),
 						(@Contestant2, 'Fozzie Bear', @Team1, 1, 'https://lumiere-a.akamaihd.net/v1/images/character_themuppets_fozzie_5314c3f1.jpeg?region=0,0,300,300', 31.2, 2.5, 39.3, 4),
 						(@Contestant3, 'Animal', @Team2, 2, 'https://lumiere-a.akamaihd.net/v1/images/character_themuppets_animal_9d53d6e7.jpeg?region=0,0,300,300', 38.5, 3.2, 48, 3),
 						(@Contestant4, 'Pepe the Prawn', @Team2, 2, 'https://lumiere-a.akamaihd.net/v1/images/character_themuppets_pepe_86d94b17.jpeg?region=0,0,300,300', 39.6, 3.6, 46.5, 5),
-						(@Contestant5, 'Name 5', @Team3, 1, '', 42.3, 4.1, 52, 6),
-						(@Contestant6, 'Name 6', @Team3, 0, '', 29.8, 2.2, 42.9, 2),
-						(@Contestant7, 'Name 7', @Team4, 1, '', 33, 2.9, 36.9, 4),
-						(@Contestant8, 'Name 8', @Team4, 1, '', 40.1, 5.5, 38.1, 3)
+						(@Contestant5, 'Uncle Dead', @Team3, 1, 'assets/img/muppets/Uncledead.jpg', 42.3, 4.1, 52, 6),
+						(@Contestant6, 'Crazy Harry', @Team3, 0, 'assets/img/muppets/crazyharry.jpg', 29.8, 2.2, 42.9, 2),
+						(@Contestant7, 'Sam the Eagle', @Team4, 1, 'assets/img/muppets/sameagle.jpg', 33, 2.9, 36.9, 4),
+						(@Contestant8, 'Lew Zealand', @Team4, 1, 'assets/img/muppets/lewzealand.jpg', 40.1, 5.5, 38.1, 3)
 
 INSERT INTO dbo.Umpires (Id, Name, TotalMatchStops)
 			VALUES  (@Umpire1, 'Umpire 1', 3),

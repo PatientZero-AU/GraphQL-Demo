@@ -4,6 +4,7 @@ query AllTeams {
     contestants {
       id
       name
+      imageUrl
     }
   }
 }

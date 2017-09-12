@@ -1,6 +1,7 @@
 query Contestant($contestantId: ID!) {
   contestant(contestantId: $contestantId) {
     id
+    imageUrl
     name
     dominantHand
     heightCm

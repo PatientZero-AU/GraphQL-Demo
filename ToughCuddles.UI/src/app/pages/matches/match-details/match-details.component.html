@@ -1,6 +1,6 @@
 <md-toolbar color="primary">
   <md-toolbar-row>
-    <h1 class="page-card-flexible-title">{{ data?.match.awayTeam.name + ' VS ' + data?.match.homeTeam.name }}</h1>
+    <h1 class="page-card-flexible-title">{{ data?.match.homeTeam.name + ' VS ' + data?.match.awayTeam.name }}</h1>
   </md-toolbar-row>
   <md-toolbar-row></md-toolbar-row>
 </md-toolbar>
@@ -80,7 +80,7 @@
 
                   <tr>
                     <td>{{ data?.match.homeTeam.strikesMinAvg }} min</td>
-                    <td>Reach (avg)</td>
+                    <td>Strikes (min)</td>
                     <td>{{ data?.match.awayTeam.strikesMinAvg }} min</td>
                   </tr>
 

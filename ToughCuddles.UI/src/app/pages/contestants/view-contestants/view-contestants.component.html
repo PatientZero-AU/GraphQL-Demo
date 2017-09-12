@@ -15,14 +15,13 @@
             <md-card-actions>
               <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="row">
                 <div *ngFor="let contestant of team.contestants; let i = index;">
+                  <div>
+                    <img class="thumb" [alt]="contestant.name" width="50px" height="50px" data-aspect_ratio="1" data-orientation="landscape"
+                      data-legacy="true" [src]="contestant.imageUrl">
+                  </div>
                   <button md-button class="pull-right" (click)="editContestant(contestant.id)">{{ contestant.name }}</button>
                 </div>
               </div>
-              <!-- <button md-icon-button (click)="editContestant(team.)">
-                  <md-icon>location_on</md-icon>
-                </button>
-              <span class="filler"></span>
-              <button md-button class="pull-right">SEND</button> -->
             </md-card-actions>
           </md-card>
         </div>

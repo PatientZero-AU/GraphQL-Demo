@@ -24,7 +24,5 @@ export class MatchDetailsComponent implements OnInit {
         return this._service.getMatch(id);
       }).first().toPromise();
     this.data = result.data;
-    this.data.match.homeTeam.contestants[0].name
-    this.data.match.homeTeam.contestants[0].imageUrl
   }
 }
