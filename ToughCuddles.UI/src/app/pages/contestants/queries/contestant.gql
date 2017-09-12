@@ -3,5 +3,9 @@ query Contestant($contestantId: ID!) {
     id
     name
     dominantHand
+    heightCm
+    weightKg
+    reachCm
+    strikesMin
   }
 }

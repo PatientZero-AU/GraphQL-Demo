@@ -13,7 +13,17 @@ namespace ToughCuddles.Data.Models
     [NotMapped]
     public ICollection<Match> WinningMatches => PastMatches.Where(m => m.WinningTeamId == Id).ToArray();
     [NotMapped]
-    public double AverageWinRate => AllMatches.Count > 0 ? (double)MatchesWinningTeam.Count / AllMatches.Count : 0;
+    public double WinRateAvg => AllMatches.Count > 0 ? (double)MatchesWinningTeam.Count / AllMatches.Count : 0;
+
+    [NotMapped]
+    public decimal HeightCmAvg => Contestants.Average(c => c.HeightCm);
+    [NotMapped]
+    public decimal WeightKgAvg => Contestants.Average(c => c.WeightKg);
+    [NotMapped]
+    public decimal ReachCmAvg => Contestants.Average(c => c.ReachCm);
+    [NotMapped]
+    public double StrikesMinAvg => Contestants.Average(c => c.StrikesMin);
+
     [NotMapped]
     public int TicketsSoldCount => AllMatches.SelectMany(m => m.Tickets).Count();
   }

@@ -46,7 +46,7 @@ export class AdminDashboardComponent implements OnInit {
           label: '% Average Win Rate',
           borderColor: '#009688',
           backgroundColor: 'rgba(0, 150, 136, 0.5)',
-          data: this.averageWins.teams.map(t => t.averageWinRate * 100)
+          data: this.averageWins.teams.map(t => t.winRateAvg * 100)
         }, {
           label: 'Tickets Sold',
           borderColor: '#ffc107',

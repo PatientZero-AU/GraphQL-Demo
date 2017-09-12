@@ -1,0 +1,25 @@
+query Match($matchId: ID!) {
+  match (matchId: $matchId){
+    date
+    id
+    homeTeam {
+      name
+      heightCmAvg
+      weightKgAvg
+      reachCmAvg
+      strikesMinAvg
+    }
+    homeOdds
+    awayTeam {
+      name
+      heightCmAvg
+      weightKgAvg
+      reachCmAvg
+      strikesMinAvg
+    }
+    awayOdds
+    umpire {
+      name
+    }
+  }
+}

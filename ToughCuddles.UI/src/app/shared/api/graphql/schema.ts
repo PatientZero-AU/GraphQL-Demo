@@ -5,7 +5,7 @@ export type AverageWinsTicketsQuery = {
   teams:  Array< {
     name: string,
     ticketsSoldCount: number | null,
-    averageWinRate: number | null,
+    winRateAvg: number | null,
   } | null > | null,
 };
 
@@ -38,6 +38,53 @@ export type ContestantQuery = {
     id: string | null,
     name: string,
     dominantHand: number,
+    heightCm: number | null,
+    weightKg: number | null,
+    reachCm: number | null,
+    strikesMin: number | null,
+  } | null,
+};
+
+export type AllMatchesQuery = {
+  matches:  Array< {
+    id: string | null,
+    date: string | null,
+    homeTeam:  {
+      name: string,
+    } | null,
+    awayTeam:  {
+      name: string,
+    } | null,
+  } | null > | null,
+};
+
+export type MatchQueryVariables = {
+  matchId: string,
+};
+
+export type MatchQuery = {
+  match:  {
+    date: string | null,
+    id: string | null,
+    homeTeam:  {
+      name: string,
+      heightCmAvg: number | null,
+      weightKgAvg: number | null,
+      reachCmAvg: number | null,
+      strikesMinAvg: number | null,
+    } | null,
+    homeOdds: number | null,
+    awayTeam:  {
+      name: string,
+      heightCmAvg: number | null,
+      weightKgAvg: number | null,
+      reachCmAvg: number | null,
+      strikesMinAvg: number | null,
+    } | null,
+    awayOdds: number | null,
+    umpire:  {
+      name: string,
+    } | null,
   } | null,
 };
 /* tslint:enable */

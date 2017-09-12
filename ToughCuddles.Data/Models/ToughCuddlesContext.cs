@@ -29,6 +29,8 @@ namespace ToughCuddles.Data.Models
             {
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
+                entity.Property(e => e.HeightCm).HasColumnType("decimal(10, 2)");
+
                 entity.Property(e => e.ImageUrl)
                     .IsRequired()
                     .HasMaxLength(400);
@@ -36,6 +38,10 @@ namespace ToughCuddles.Data.Models
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(100);
+
+                entity.Property(e => e.ReachCm).HasColumnType("decimal(10, 2)");
+
+                entity.Property(e => e.WeightKg).HasColumnType("decimal(10, 2)");
 
                 entity.HasOne(d => d.Team)
                     .WithMany(p => p.Contestants)

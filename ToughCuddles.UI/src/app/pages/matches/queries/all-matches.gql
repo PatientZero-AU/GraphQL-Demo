@@ -1,0 +1,12 @@
+query AllMatches {
+  matches {
+    id
+    date
+    homeTeam {
+      name
+    }
+    awayTeam {
+      name
+    }
+  }
+}

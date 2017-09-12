@@ -2,6 +2,6 @@ query AverageWinsTickets {
   teams {
     name
     ticketsSoldCount
-    averageWinRate
+    winRateAvg
   }
 }

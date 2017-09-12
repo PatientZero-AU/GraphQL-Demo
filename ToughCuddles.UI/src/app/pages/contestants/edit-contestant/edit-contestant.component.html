@@ -21,6 +21,38 @@
             <br>
             <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="50">
               <div class="card-form-input" fxflex>
+                <md-input-container>
+                  <input mdInput placeholder="Height/Cm" type="text" [(ngModel)]="data?.contestant.heightCm">
+                </md-input-container>
+              </div>
+            </div>
+            <br>
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="50">
+              <div class="card-form-input" fxflex>
+                <md-input-container>
+                  <input mdInput placeholder="Weight/Kg" type="text" [(ngModel)]="data?.contestant.weightKg">
+                </md-input-container>
+              </div>
+            </div>
+            <br>
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="50">
+              <div class="card-form-input" fxflex>
+                <md-input-container>
+                  <input mdInput placeholder="Reach/Cm" type="text" [(ngModel)]="data?.contestant.reachCm">
+                </md-input-container>
+              </div>
+            </div>
+            <br>
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="50">
+              <div class="card-form-input" fxflex>
+                <md-input-container>
+                  <input mdInput placeholder="Strikes/Min" type="text" [(ngModel)]="data?.contestant.strikesMin">
+                </md-input-container>
+              </div>
+            </div>
+            <br>
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex="50">
+              <div class="card-form-input" fxflex>
                 <md-card-subtitle>Dominant Hand</md-card-subtitle>
                 <md-radio-group [(ngModel)]="data?.contestant.dominantHand">
                   <md-radio-button value="0">Both</md-radio-button>

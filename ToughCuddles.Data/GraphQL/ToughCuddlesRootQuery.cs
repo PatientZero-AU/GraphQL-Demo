@@ -62,6 +62,34 @@ namespace ToughCuddles.Data.GraphQL
                         .ToArrayAsync(ctx.CancellationToken);
         });
 
+      FieldAsync<MatchType>(
+        "match",
+        arguments: new QueryArguments(new QueryArgument<NonNullGraphType<IdGraphType>> { Name = "matchId" }),
+        resolve: async ctx =>
+        {
+          var id = ctx.GetArgument<Guid>("matchId");
+          var dbCtx = ctx.UserContext.As<GraphQlUserContext>().DbContext;
+          return await dbCtx.Matches
+            .Include(m => m.HomeTeam)
+              .ThenInclude(t => t.Contestants)
+            .Include(m => m.AwayTeam)
+              .ThenInclude(t => t.Contestants)
+            .SingleAsync(m => m.Id == id, ctx.CancellationToken);
+        });
+
+      FieldAsync<ListGraphType<MatchType>>(
+        "matches",
+        resolve: async ctx =>
+        {
+          var dbCtx = ctx.UserContext.As<GraphQlUserContext>().DbContext;
+          return await dbCtx.Matches
+                            .Include(m => m.HomeTeam)
+                            .Include(m => m.AwayTeam)
+                            .OrderBy(m => m.Date)
+                            .AsNoTracking()
+                            .ToArrayAsync(ctx.CancellationToken);
+        });
+
       FieldAsync<ListGraphType<VenueType>>(
         "venues",
         resolve: async ctx =>
@@ -72,7 +100,7 @@ namespace ToughCuddles.Data.GraphQL
               .ThenInclude(t => t.Match)
             .OrderBy(v => v.Name)
             .ToArrayAsync(ctx.CancellationToken);
-        });
+        }).RequestClaim(CuddlesRole.Admin);
     }
   }
 
@@ -85,6 +113,11 @@ namespace ToughCuddles.Data.GraphQL
       Field(r => r.Name);
       Field(r => r.ImageUrl);
       Field(r => r.DominantHand);
+      Field(r => r.HeightCm, type: typeof(FloatGraphType));
+      Field(r => r.WeightKg, type: typeof(FloatGraphType));
+      Field(r => r.ReachCm, type: typeof(FloatGraphType));
+      Field(r => r.StrikesMin, type: typeof(IntGraphType));
+
       FieldAsync<TeamType>(
         "team",
         resolve: async ctx =>
@@ -104,7 +137,11 @@ namespace ToughCuddles.Data.GraphQL
       Field(r => r.Name);
       Field(r => r.JoinDate);
       Field(r => r.TicketsSoldCount, type: typeof(IntGraphType));
-      Field(r => r.AverageWinRate, type: typeof(FloatGraphType));
+      Field(r => r.WinRateAvg, type: typeof(FloatGraphType));
+      Field(r => r.HeightCmAvg, type: typeof(FloatGraphType));
+      Field(r => r.WeightKgAvg, type: typeof(FloatGraphType));
+      Field(r => r.ReachCmAvg, type: typeof(FloatGraphType));
+      Field(r => r.StrikesMinAvg, type: typeof(FloatGraphType));
 
       FieldAsync<ListGraphType<ContestantType>>(
         "contestants",
@@ -127,7 +164,7 @@ namespace ToughCuddles.Data.GraphQL
             .Where(m => m.HomeTeamId == team.Id || m.AwayTeamId == team.Id)
             .AsNoTracking()
             .ToArrayAsync(ctx.CancellationToken);
-        }); //.RequestClaim(CuddlesRole.Admin);
+        });
     }
   }
 
@@ -137,9 +174,9 @@ namespace ToughCuddles.Data.GraphQL
     {
       Field(m => m.Id, type: typeof(IdGraphType));
       Field(m => m.Date, type: typeof(DateGraphType));
-      //Field(m => m.HomeTeam, type: typeof(TeamType));
-      //Field(m => m.AwayTeam, type: typeof(TeamType));
-      //Field(m => m.WinningTeam, type: typeof(TeamType), nullable: true);
+      Field(m => m.HomeTeam, type: typeof(TeamType));
+      Field(m => m.AwayTeam, type: typeof(TeamType));
+      Field(m => m.WinningTeam, type: typeof(TeamType), nullable: true);
       Field(m => m.HomeOdds, type: typeof(FloatGraphType));
       Field(m => m.AwayOdds, type: typeof(FloatGraphType));
       FieldAsync<ListGraphType<TicketType>>("tickets",

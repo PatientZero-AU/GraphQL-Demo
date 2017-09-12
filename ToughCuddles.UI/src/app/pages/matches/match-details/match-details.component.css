@@ -1,0 +1,12 @@
+td:nth-child(1) {
+    text-align: right;
+}
+
+td:nth-child(2) {
+    text-align: center;
+    width: 1%;
+}
+
+td:nth-child(3) {
+    text-align: left;
+}
