@@ -33,12 +33,11 @@ export class AppComponent implements OnInit {
     private snackBar: MdSnackBar,
     private _apiClient: Client) {
     // Change your page title here
-    appService.getState().topnavTitle = 'Loading';
+    appService.getState().topnavTitle = 'Tough Cuddles';
     this.date = new Date();
     setInterval(() => {
       this.date = new Date();
     }, 1000);
-    this.snackBarRef = this.snackBar.open('Launch success!', 'Done', { duration: 5000, });
   }
 
   ngOnInit() {

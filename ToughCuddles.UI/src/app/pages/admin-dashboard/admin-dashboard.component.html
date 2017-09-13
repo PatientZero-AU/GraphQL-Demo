@@ -1,26 +1,38 @@
-<md-tab-group>
-  <md-tab label="Wins vs. Tickets">
-    <div class="page-content">
-      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex>
-        <md-card class="page-card" fxFlex>
-          <md-card-title>Win Rate Vs. Ticket Sales</md-card-title>
-          <md-card-content>
-            <lk-chart-js *ngIf="done" [type]="bar?.type" [options]="options" [data]="bar?.data"
-                         [height]="320"></lk-chart-js>
-          </md-card-content>
-        </md-card>
-      </div>
+<md-toolbar color="primary">
+  <md-toolbar-row>
+    <h1 class="page-card-flexible-title">Dashboards</h1>
+  </md-toolbar-row>
+  <md-toolbar-row></md-toolbar-row>
+</md-toolbar>
+<div class="page-card page-card-flexible-tabs" fxFlexOffset="10" fxFlex="80">
+  <div class="page-content">
+    <div class="page-content" style="background-color: white;">
+      <section class="bs">
+        <md-tab-group>
+          <md-tab label="Wins vs. Tickets">
+            <div class="page-content">
+              <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex>
+                <md-card class="page-card" fxFlex>
+                  <md-card-title>Win Rate Vs. Ticket Sales</md-card-title>
+                  <md-card-content>
+                    <lk-chart-js *ngIf="done" [type]="bar?.type" [options]="options" [data]="bar?.data" [height]="320"></lk-chart-js>
+                  </md-card-content>
+                </md-card>
+              </div>
+            </div>
+          </md-tab>
+          <md-tab label="Ticket Sales">
+            <div class="page-content">
+              <md-card class="page-card" fxFlex>
+                <md-card-title>Bar Chart</md-card-title>
+                <md-card-content>
+                  <lk-chart-js *ngIf="done" [type]="line?.type" [options]="options" [data]="line?.data" [height]="320"></lk-chart-js>
+                </md-card-content>
+              </md-card>
+            </div>
+          </md-tab>
+        </md-tab-group>
+      </section>
     </div>
-  </md-tab>
-  <md-tab label="Ticket Sales">
-    <div class="page-content">
-      <md-card class="page-card" fxFlex>
-        <md-card-title>Bar Chart</md-card-title>
-        <md-card-content>
-          <lk-chart-js *ngIf="done" [type]="line?.type" [options]="options" [data]="line?.data"
-                       [height]="320"></lk-chart-js>
-        </md-card-content>
-      </md-card>
-    </div>
-  </md-tab>
-</md-tab-group>
+  </div>
+</div>

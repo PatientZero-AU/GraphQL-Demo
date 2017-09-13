@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
@@ -13,7 +14,7 @@ namespace ToughCuddles.Data.Models
     [NotMapped]
     public ICollection<Match> WinningMatches => PastMatches.Where(m => m.WinningTeamId == Id).ToArray();
     [NotMapped]
-    public double WinRateAvg => AllMatches.Count > 0 ? (double)MatchesWinningTeam.Count / AllMatches.Count : 0;
+    public decimal WinRateAvg => AllMatches.Count > 0 ? decimal.Round((decimal)MatchesWinningTeam.Count / AllMatches.Count, 3) : 0;
 
     [NotMapped]
     public decimal HeightCmAvg => Contestants.Average(c => c.HeightCm);

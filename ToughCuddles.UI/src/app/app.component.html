@@ -5,10 +5,7 @@
     <md-icon>menu</md-icon>
   </a>
   <!--Application Title-->
-  <span class="topnav-title">
-    <img src="assets/img/logo-half-light.svg"
-         *ngIf="appService.getState().sidenavMode === 'side'">
-    {{appService.getState().topnavTitle}}</span>
+  <span class="topnav-title">{{appService.getState().topnavTitle}}</span>
   <span class="toolbar-filler"></span>
   <!--Apps Menu-->
   <span fxShow.sm="false" fxShow.xs="false">

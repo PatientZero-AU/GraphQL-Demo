@@ -4,7 +4,7 @@
   </md-toolbar-row>
   <md-toolbar-row></md-toolbar-row>
 </md-toolbar>
-<div class="page-card page-card-flexible-tabs" fxFlexOffset="15" fxFlex="70">
+<div class="page-card page-card-flexible-tabs" fxFlexOffset="22" fxFlex="55">
   <div class="page-content">
     <div class="page-content">
       <section class="bs">
@@ -12,17 +12,10 @@
           <md-card-title>
             <span>Upcoming Matches</span>
           </md-card-title>
+          <br />
           <md-card-content>
             <section class="bs">
               <table class="table table-striped table-hover table-card">
-                <thead>
-                  <tr>
-                    <th>Date</th>
-                    <th>Home Team</th>
-                    <th></th>
-                    <th>Away Team</th>
-                  </tr>
-                </thead>
                 <tbody>
                   <tr *ngFor="let match of data?.matches" (click)="matchDetail(match.id)">
                     <td>{{ toDateString(match.date) }}</td>
