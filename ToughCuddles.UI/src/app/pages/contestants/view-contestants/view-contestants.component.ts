@@ -15,8 +15,13 @@ export class ViewContestantsComponent implements OnInit {
     private _service: ContestantsService,
     private router: Router) { }
 
+  // 1) When Page loads
   async ngOnInit() {
+
+    // 2) Request teams/contestants
     const result = await this._service.getContestants();
+
+    // 5) Strongly typed result
     this.data = result.data;
   }
 

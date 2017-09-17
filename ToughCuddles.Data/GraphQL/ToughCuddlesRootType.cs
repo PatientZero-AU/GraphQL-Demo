@@ -12,9 +12,12 @@ using ToughCuddles.Data.Models;
 
 namespace ToughCuddles.Data.GraphQL
 {
-  public class ToughCuddlesRootQuery : ObjectGraphType
+  public class ToughCuddlesRootType : ObjectGraphType
   {
-    public ToughCuddlesRootQuery()
+    /// <summary>
+    /// 1) The entry point to the schema is called the Root Type
+    /// </summary>
+    public ToughCuddlesRootType()
     {
       Name = "toughcuddles";
 
@@ -46,11 +49,19 @@ namespace ToughCuddles.Data.GraphQL
           return await dbCtx.Teams.Include(t => t.Contestants).AsNoTracking().SingleAsync(c => c.Id == id, ctx.CancellationToken);
         });
 
-      FieldAsync<ListGraphType<TeamType>>(
-        "teams",
-        resolve: async ctx =>
+      // 2) Every type has fields which are also GraphTypes
+      FieldAsync<ListGraphType<TeamType>>("teams",
+        // 3) The resolver function of a field is responsible to fetch the data
+        resolve:
+        // 4) ctx is an object provided by the runtime
+        async ctx =>
         {
-          var dbCtx = ctx.UserContext.As<GraphQlUserContext>().DbContext;
+          // 5) userCtx is an object provided by us
+          var userCtx = ctx.UserContext.As<GraphQlUserContext>();
+
+          // 6) DbCtx was injected to the userCtx
+          var dbCtx = userCtx.DbContext;
+
           return await dbCtx.Teams
                         .Include(t => t.MatchesAwayTeam)
                           .ThenInclude(m => m.Tickets)
@@ -64,10 +75,13 @@ namespace ToughCuddles.Data.GraphQL
 
       FieldAsync<MatchType>(
         "match",
+        // 1) This is where the field declares its arguments
         arguments: new QueryArguments(new QueryArgument<NonNullGraphType<IdGraphType>> { Name = "matchId" }),
         resolve: async ctx =>
         {
+          // 2) we get the argument for the provided context
           var id = ctx.GetArgument<Guid>("matchId");
+
           var dbCtx = ctx.UserContext.As<GraphQlUserContext>().DbContext;
           return await dbCtx.Matches
             .Include(m => m.HomeTeam)
@@ -104,12 +118,16 @@ namespace ToughCuddles.Data.GraphQL
     }
   }
 
+  /// <summary>
+  /// 1) The Graph ContestantType is mapped to our Contestant entity
+  /// </summary>
   public class ContestantType : ObjectGraphType<Contestant>
   {
     public ContestantType()
     {
       Field(r => r.Id, type: typeof(IdGraphType));
-      
+
+      // 2) Primitive fields get mapped automatically by value
       Field(r => r.Name);
       Field(r => r.ImageUrl);
       Field(r => r.DominantHand);
@@ -118,12 +136,13 @@ namespace ToughCuddles.Data.GraphQL
       Field(r => r.ReachCm, type: typeof(FloatGraphType));
       Field(r => r.StrikesMin, type: typeof(IntGraphType));
 
+      // 3) Fields that are GraphTypes need to be resolved
       FieldAsync<TeamType>(
         "team",
         resolve: async ctx =>
         {
           var contestant = ctx.Source;
-          var dbCtx = ctx.UserContext.As<GraphQlUserContext>().DbContext; ;
+          var dbCtx = ctx.UserContext.As<GraphQlUserContext>().DbContext;
           return await dbCtx.Teams.AsNoTracking().SingleAsync(c => c.Id == contestant.TeamId, ctx.CancellationToken);
         });
     }
@@ -137,7 +156,10 @@ namespace ToughCuddles.Data.GraphQL
       Field(r => r.Name);
       Field(r => r.JoinDate);
       Field(r => r.TicketsSoldCount, type: typeof(IntGraphType));
+
+      // 1) We can use the behavior of our domain entities during the value mapping
       Field(r => r.WinRateAvg, type: typeof(FloatGraphType));
+
       Field(r => r.HeightCmAvg, type: typeof(FloatGraphType));
       Field(r => r.WeightKgAvg, type: typeof(FloatGraphType));
       Field(r => r.ReachCmAvg, type: typeof(FloatGraphType));
@@ -232,11 +254,13 @@ namespace ToughCuddles.Data.GraphQL
       Field(v => v.Name);
       Field(v => v.Capacity);
       Field(v => v.Tickets, type: typeof(ListGraphType<TicketType>));
+
+      // 1) You can also have custom queries
       Field<ListGraphType<TupleType>>("ticketSales",
         resolve: ctx =>
         {
           var venue = ctx.Source;
-          
+
           var ticketsPerWeek = venue.Tickets
                                 .GroupBy(t => t.DateSold.Date)
                                 .OrderBy(t => t.Key)
@@ -244,7 +268,7 @@ namespace ToughCuddles.Data.GraphQL
                                 .ToTupleList();
 
           return ticketsPerWeek;
-        });
+        }).RequestClaim(CuddlesRole.Admin);
     }
   }
 

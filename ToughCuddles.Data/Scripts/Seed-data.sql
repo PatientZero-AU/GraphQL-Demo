@@ -61,8 +61,8 @@ INSERT INTO dbo.Contestants (Id, Name, TeamId, DominantHand, ImageUrl, HeightCm,
 						(@Contestant8, 'Lew Zealand', @Team4, 1, 'assets/img/muppets/lewzealand.jpg', 40.1, 5.5, 38.1, 3)
 
 INSERT INTO dbo.Umpires (Id, Name, TotalMatchStops)
-			VALUES  (@Umpire1, 'Umpire 1', 3),
-					(@Umpire2, 'Umpire 2', 1)
+			VALUES  (@Umpire1, 'Kermit', 3),
+					(@Umpire2, 'Ms Piggy', 1)
 
 INSERT INTO dbo.Matches (Id, HomeTeamId, AwayTeamId, Date, HomeOdds, AwayOdds, UmpireId, WinningTeamId)
 				 VALUES (@Match1, @Team1, @Team2, DATEADD(dd, 1, GETDATE()), (RAND() * 10) + RAND(), (RAND() * 10) + RAND(), @Umpire2, null),
@@ -79,9 +79,9 @@ INSERT INTO dbo.Matches (Id, HomeTeamId, AwayTeamId, Date, HomeOdds, AwayOdds, U
 						(@Match12, @Team1, @Team4, DATEADD(dd, 15, GETDATE()), (RAND() * 10) + RAND(), (RAND() * 10) + RAND(), @Umpire1, null)
 
 INSERT INTO dbo.Venues (Id, Name, Capacity)
-				VALUES  (@Venue1, 'Venue 1', 35),
-						(@Venue2, 'Venue 2', 40),
-						(@Venue3, 'Venue 3', 55)
+				VALUES  (@Venue1, 'The Dungeon', 35),
+						(@Venue2, 'Drangons Nest', 40),
+						(@Venue3, 'The Den', 55)
 
 INSERT INTO dbo.Tickets (Id, MatchId, Price, Seat, VenueId, DateSold)
 			     VALUES (NEWID(), @Match1, 40, '3A', @Venue1, DATEADD(dd, -10, GETDATE() + (RAND() * 5))),

@@ -57,14 +57,14 @@ namespace ToughCuddles.Web
             services.AddScoped<ISchema, Schema>(
               sp =>
               {
-                  var query = sp.GetService<ToughCuddlesRootQuery>();
+                  var query = sp.GetService<ToughCuddlesRootType>();
                   return new Schema
                   {
                       Query = query
                   };
               });
             services.AddScoped<GraphQlUserContext>();
-            services.AddScoped<ToughCuddlesRootQuery>();
+            services.AddScoped<ToughCuddlesRootType>();
             services.AddScoped<IDocumentExecuter, DocumentExecuter>();
             services.AddScoped<IDocumentWriter, DocumentWriter>(provider => new DocumentWriter(false));
 

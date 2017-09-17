@@ -12,8 +12,10 @@ export class ContestantsService {
 
     const dto = new GraphQlQueryDto();
     dto.init({
-      query: AllTeamsQueryNode
+      query: AllTeamsQueryNode // 3) Raw Query
     });
+
+    // 4) Send Request to Server
     return this._apiClient.apiGraphQlPost(dto).first().toPromise();
   }
 
