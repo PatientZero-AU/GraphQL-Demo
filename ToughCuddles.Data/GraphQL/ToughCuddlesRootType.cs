@@ -26,7 +26,10 @@ namespace ToughCuddles.Data.GraphQL
         resolve: async ctx =>
         {
           var dbCtx = ctx.UserContext.As<GraphQlUserContext>().DbContext;
-          return await dbCtx.Contestants.AsNoTracking().ToArrayAsync(ctx.CancellationToken);
+          return await dbCtx.Contestants
+                            .Include(t => t.Team)
+                            .AsNoTracking()
+                            .ToArrayAsync(ctx.CancellationToken);
         });
 
       FieldAsync<ContestantType>(
@@ -136,15 +139,8 @@ namespace ToughCuddles.Data.GraphQL
       Field(r => r.ReachCm, type: typeof(FloatGraphType));
       Field(r => r.StrikesMin, type: typeof(IntGraphType));
 
-      // 3) Fields that are GraphTypes need to be resolved
-      FieldAsync<TeamType>(
-        "team",
-        resolve: async ctx =>
-        {
-          var contestant = ctx.Source;
-          var dbCtx = ctx.UserContext.As<GraphQlUserContext>().DbContext;
-          return await dbCtx.Teams.AsNoTracking().SingleAsync(c => c.Id == contestant.TeamId, ctx.CancellationToken);
-        });
+      // 3) Custom types also get mapped automatically
+      Field(r => r.Team, type: typeof(TeamType));
     }
   }
 
@@ -268,7 +264,7 @@ namespace ToughCuddles.Data.GraphQL
                                 .ToTupleList();
 
           return ticketsPerWeek;
-        }).RequestClaim(CuddlesRole.Admin);
+        }).RequestClaim(CuddlesRole.Admin); // Demand a Role
     }
   }
 

@@ -46,10 +46,9 @@ namespace ToughCuddles.Services
         _.OperationName = operationName;
         _.Inputs = inputs;
         _.CancellationToken = cancellationToken;
-        _.ComplexityConfiguration = new ComplexityConfiguration { MaxDepth = 15 };
+        _.ComplexityConfiguration = new ComplexityConfiguration { MaxDepth = 15 }; // Set limit to the nesting
         _.FieldMiddleware.Use<InstrumentFieldsMiddleware>();
-        _.ValidationRules = new[] { new RequiresAuthValidationRule() };
-
+        _.ValidationRules = new[] { new RequiresAuthValidationRule() }; // Will be executed for every field before it gets resolved
       });
 
       if (result.Errors?.Any() ?? false)
